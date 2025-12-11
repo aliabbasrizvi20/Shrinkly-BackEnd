@@ -13,7 +13,7 @@ const app = express();
 
 dotenv.config();
 app.use(express.json());
-app.use(cors({ origin: 'https://shrinklly.netlify.app'}));
+app.use(cors({ origin: 'https://shrinklly.netlify.app/'}));
 
 mongoose
   .connect(process.env.MONGO_URI)
