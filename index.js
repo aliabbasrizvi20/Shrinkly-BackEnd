@@ -13,7 +13,7 @@ const app = express();
 
 dotenv.config();
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: 'https:localhost:8080' }));
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -132,7 +132,7 @@ app.post("/user/login", async (req, res) => {
     },
   });
 });
-
-app.listen(8080, () => {
-  console.log("Server has started");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is live on ${PORT}`);
 });
