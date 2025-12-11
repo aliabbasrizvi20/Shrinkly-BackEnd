@@ -13,7 +13,7 @@ const app = express();
 
 dotenv.config();
 app.use(express.json());
-app.use(cors({ origin: 'https:localhost:8080' }));
+app.use(cors({ origin: 'https://shrinkly-backend.onrender.com' }));
 
 mongoose
   .connect(process.env.MONGO_URI)
@@ -41,7 +41,7 @@ app.post("/url", urlAuth, async (req, res) => {
     if (!fullUrl) return res.status(400).json({ message: "Url Required" });
     const shortUrl = nanoid(4);
     const qrCodeImage = await QRCode.toDataURL(
-      `http://localhost:8080/${shortUrl}`
+      `https://shrinkly-backend.onrender.com/${shortUrl}`
     );
     const url = new Url({
       fullUrl,
