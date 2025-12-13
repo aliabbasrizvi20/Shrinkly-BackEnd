@@ -41,7 +41,7 @@ app.post("/url", urlAuth, async (req, res) => {
     if (!fullUrl) return res.status(400).json({ message: "Url Required" });
     const shortUrl = nanoid(8);
     const qrCodeImage = await QRCode.toDataURL(
-      `https://shrinklly.netlify.app/${shortUrl}`
+      `https://shrinkly-backend.onrender.com/${shortUrl}`
     );
     const url = new Url({
       fullUrl,
