@@ -1,15 +1,15 @@
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
-
 export const urlAuth = (req, res, next) => {
   const tokenHeader = req.headers.authorization;
   if (!tokenHeader) {
     req.userId = null;
-    return next();
+    return next(); // anonymous user
   }
+
   const token = tokenHeader.split(" ")[1];
-  if (!token) {
+  if (!token || token === "null") {
     req.userId = null;
     return next();
   }
@@ -17,10 +17,42 @@ export const urlAuth = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.userId = decoded.userId;
-    next();
   } catch (error) {
-    console.log("JWT Error", error);
+    // silently ignore invalid tokens for anonymous users
     req.userId = null;
-    return next();
   }
+  next();
 };
+
+
+// import jwt from "jsonwebtoken";
+// import dotenv from "dotenv";
+// dotenv.config();
+
+// export const urlAuth = (req, res, next) => {
+//   const tokenHeader = req.headers.authorization;
+//   if (!tokenHeader) {
+//     req.userId = null;
+//     return next();
+//   }
+//   const token = tokenHeader.split(" ")[1];
+//   if (!token) {
+//     req.userId = null;
+//     return next();
+//   }
+
+//   try {
+//     if (token) {
+//       const decoded = jwt.verify(token, process.env.JWT_SECRET);
+//       req.userId = decoded.userId;
+//       next();
+//     }
+//     else {
+//       next();
+//     }
+//   } catch (error) {
+//     console.log("JWT Error", error);
+//     req.userId = null;
+//     return next();
+//   }
+// };

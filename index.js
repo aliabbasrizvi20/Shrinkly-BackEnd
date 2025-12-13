@@ -45,13 +45,13 @@ app.post("/url", urlAuth, async (req, res) => {
     if (!fullUrl) return res.status(400).json({ message: "Url Required" });
     const shortUrl = nanoid(8);
     const qrCodeImage = await QRCode.toDataURL(
-      `https://shrinklly.netlify.app/${shortUrl}`
+      `http://localhost:3000/${shortUrl}`
     );
     const url = new Url({
       fullUrl,
       shortUrl,
       qrCode: qrCodeImage,
-      userId: req.userId,
+      userId: req.userId || undefined, 
     });
     await url.save();
     return res
@@ -102,7 +102,6 @@ app.post("/user/register", async (req, res) => {
     .json({ success: true, message: " New User Is Created " });
 });
 app.post("/user/login", async (req, res) => {
-  console.log("Body received:", req.body); //
   const { email, password } = req.body;
   if (!email?.trim() || !password?.trim())
     return res
