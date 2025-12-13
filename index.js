@@ -13,8 +13,12 @@ const app = express();
 
 dotenv.config();
 app.use(express.json());
-app.use(cors({ origin: 'https://shrinklly.netlify.app'}));
-
+app.use(cors({
+  origin: [
+    'https://shrinklly.netlify.app',
+    'http://localhost:3001'
+  ]
+}));
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
